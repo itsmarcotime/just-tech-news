@@ -32,7 +32,10 @@ router.get('/', (req, res) => {
             console.log(dbPostData[0]);
             const posts = dbPostData.map(post => post.get({ plain: true }));
 
-            res.render('homepage', { posts });
+            res.render('homepage', {
+                posts,
+                loggedIn: req.session.loggedIn
+            });
         })
         .catch(err => {
             console.log(err);
@@ -57,6 +60,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/post/:id', (req, res) => {
+
     Post.findOne({
         where: {
             id: req.params.id
@@ -93,7 +97,10 @@ router.get('/post/:id', (req, res) => {
             const post = dbPostData.get({ plain: true });
 
             // pass data to template
-            res.render('single-post', { post });
+            res.render('single-post', {
+                post,
+                loggedIn: req.session.loggedIn
+            });
         })
         .catch(err => {
             console.log(err);
